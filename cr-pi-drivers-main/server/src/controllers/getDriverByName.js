@@ -1,7 +1,7 @@
 const { Driver } = require('./../db');
-const URL = "http://localhost:5000/drivers";
 const axios = require('axios');
 
+const URL = "http://localhost:5000/drivers";
 
 const getDriverByName = async (req, res) => {
     let { name } = req.query;
@@ -12,12 +12,12 @@ const getDriverByName = async (req, res) => {
 
             const dbDrivers = await Driver.findAll({
                 where: { forename: name }
-            })
+            });
 
             const response = await axios.get(URL);
             const data = response.data;
 
-            let apiDrivers = data.filter(driver => driver.name.forename === name)
+            let apiDrivers = data.filter(driver => driver.name.forename === name);
 
             apiDrivers = apiDrivers.map((driver) => { 
                 return {
@@ -32,18 +32,16 @@ const getDriverByName = async (req, res) => {
                 };
               });
 
-            const allDrivers = dbDrivers.concat(apiDrivers)
-            const limitedDrivers = allDrivers.slice(0, 15)
-
-            res.json(limitedDrivers)
+            const allDrivers = dbDrivers.concat(apiDrivers);
+            const limitedDrivers = allDrivers.slice(0, 15);
+    
+            res.json(limitedDrivers);
         } catch (error) {
-            res.status(400).send({ error: error.message })
-        }
+            res.status(500).send({ error: error.message });
+        };
     } else {
-        res.status(500).send({ error: "Driver not found" })
-    }
+        res.status(422).send({ error: "Faltan datos" });
+    };
+};
 
-
-}
-
-module.exports = getDriverByName
+module.exports = getDriverByName;

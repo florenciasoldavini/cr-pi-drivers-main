@@ -10,25 +10,31 @@ const Home = () => {
     const drivers = useSelector(state => state.drivers);
     const filteredDrivers = useSelector(state => state.filteredDrivers);
     const dispatch = useDispatch();
+
+    const cardsPerPage = 9
     const [currentPage, setCurrentPage] = useState(1);
+    const [firstIndex, setFirstIndex] = useState(0)
+    const lastIndex = firstIndex + cardsPerPage;
+    const currentDrivers = (filteredDrivers.length ? filteredDrivers : drivers).slice(firstIndex, lastIndex);
+    const numberOfPages = Math.ceil(filteredDrivers.length ? filteredDrivers.length : drivers.length / cardsPerPage);
+
 
     useEffect(() => {
         dispatch(getDrivers());
         dispatch(getTeams())
     }, [filteredDrivers]);
 
-    const driversPerPage = 9
-    const indexOfLastDriver= currentPage * driversPerPage;
-    const indexOfFirstDriver = indexOfLastDriver - driversPerPage;
-    const currentDrivers = (filteredDrivers.length ? filteredDrivers : drivers).slice(indexOfFirstDriver, indexOfLastDriver);
 
-    const paginate = (number) => setCurrentPage(number);
+    const handlePageClick = (event) => {
+        const newIndex = (event.selected * cardsPerPage) % (filteredDrivers.length ? filteredDrivers.length : drivers.length);
+        setFirstIndex(newIndex);
+    };
 
     return (
         <div className="page" id="home-page">
             <NavBar />
             <Cards drivers={currentDrivers} />
-            <Pagination driversPerPage={driversPerPage} totalDrivers={drivers.length} paginate={paginate}/>
+            <Pagination handlePageClick={handlePageClick} numberOfPages={numberOfPages}/>
         </div>
     )
 };

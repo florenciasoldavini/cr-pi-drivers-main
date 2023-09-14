@@ -1,10 +1,13 @@
-const URL = "http://localhost:5000/drivers";
 const axios = require('axios');
 const { Driver, Team } = require('./../db');
+const joinTeams = require('./../helpers/joinTeams');
 
-const getDrivers = async (req, res) => {
+const DEFAULT_IMAGE = "https://i.kym-cdn.com/entries/icons/original/000/032/100/cover4.jpg";
+const URL = "http://localhost:5000/drivers";
+
+const getDrivers = async (_, res) => {
+
   try {
-
     const response = await axios.get(URL);
     const data = response.data;
 
@@ -13,7 +16,7 @@ const getDrivers = async (req, res) => {
         id: driver.id,
         forename: driver.name.forename,
         surname: driver.name.surname,
-        image: driver.image.url ? driver.image.url : "https://i.kym-cdn.com/entries/icons/original/000/032/100/cover4.jpg",
+        image: driver.image.url ? driver.image.url : DEFAULT_IMAGE,
         dob: driver.dob,
         nationality: driver.nationality,
         teams: driver.teams,
@@ -26,11 +29,9 @@ const getDrivers = async (req, res) => {
     });
 
     const dbDrivers = drivers.map(driver => {
-      const teams = [];
-      driver.teams.forEach(team => {
-        teams.push(team.name);
-      })
-      const joinedTeams = teams.join(", ");
+
+      const joinedTeams = joinTeams(driver);
+
       return {
         id: driver.id,
         forename: driver.forename,
@@ -40,7 +41,7 @@ const getDrivers = async (req, res) => {
         nationality: driver.nationality,
         teams: joinedTeams,
         description: driver.description
-      }
+      };
     });
 
     const allDrivers = dbDrivers.concat(apiDrivers);
@@ -48,8 +49,8 @@ const getDrivers = async (req, res) => {
     res.json(allDrivers);
 
   } catch (error) {
-    res.status(400).send({ error: "No drivers found" })
-  }
+    res.status(500).send({ error: error.message });
+  };
 };
 
-module.exports = getDrivers
+module.exports = getDrivers;

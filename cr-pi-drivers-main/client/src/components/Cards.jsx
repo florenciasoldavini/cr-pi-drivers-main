@@ -1,4 +1,5 @@
 import Card from "./Card";
+import { findAndAddSpace } from "../auxFunctions";
 
 const Cards = ({ drivers }) => {
 
@@ -11,7 +12,7 @@ const Cards = ({ drivers }) => {
                     forename={forename}
                     surname={surname}
                     image={image}
-                    teams={teams}
+                    teams={findAndAddSpace(teams)}
                  />
               })
            }

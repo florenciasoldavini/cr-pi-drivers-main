@@ -11,4 +11,15 @@ server.use(cors());
 
 server.use(router);
 
+const htmlPath = "../../client/dist/index.html"
+
+server.use(express.static(
+    path.join(__dirname, htmlPath)));
+
+    server.get("*", (req, res) => {
+        res.sendFile(
+            path.join(__dirname, htmlPath)
+          );
+    })
+
 module.exports = server;

@@ -3,19 +3,18 @@ const { Driver } = require('../db');
 const deleteDriver = async (req, res) => {
     const id = req.params.idDriver;
 
-    console.log("Entro al delete del back");
     if (id) {
         try {
-            const dbDriver = await Driver.destroy({
+            await Driver.destroy({
                 where: { id: id }
             });
-            res.json("Driver deleted")
+            res.json(id);
         } catch (error) {
-            res.status(400).send({ error: error.message })
-        }
+            res.status(500).send({ error: error.message });
+        };
     } else {
-        res.status(500).send({ error: "Driver not found" })
-    }
+        res.status(422).send({ error: "Faltan datos" });
+    };
 };
 
 module.exports = deleteDriver;

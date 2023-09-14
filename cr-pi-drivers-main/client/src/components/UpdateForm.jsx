@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { createDriver, getTeams } from "../redux/actions";
+import { updateDriver, getTeams } from "../redux/actions";
 import validation from "./validation";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
-const Form = () => {
+const UpdateForm = () => {
 
     const dispatch = useDispatch();
     const error = useSelector(state => state.error);
     const teams = useSelector(state => state.teams);
+    const { id } = useParams();
 
     useEffect(() => {
         dispatch(getTeams())
@@ -58,9 +59,6 @@ const Form = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        console.log(driver.teams);
-        console.log(errors.teams);
-
         const validationErrors = validation({
             ...driver,
             [event.target.name]: event.target.value,
@@ -78,7 +76,7 @@ const Form = () => {
             !validationErrors.description &&
             !validationErrors.teams &&
             !validationErrors.general) {
-            dispatch(createDriver(driver));
+            dispatch(updateDriver(id, driver));
 
             if (error !== '') {
                 setErrors({
@@ -376,7 +374,6 @@ const Form = () => {
                 {errors.nationality && <p className='error-txt'>{errors.nationality}</p>}
                 <label className='form-txt'>Imagen:</label>
                 <input className='form-input' name='image' type='text' placeholder='Inserte un link a una imagen...' onChange={handleChange} value={driver.image}></input>
-                <input type="file" accept="image/png, image/jpeg" />
                 {errors.image && <p className='error-txt'>{errors.image}</p>}
                 <label className='form-txt'>Fecha de nacimiento:</label>
                 <input className='form-input' name='dob' type='text' placeholder='AAAA-MM-DD' onChange={handleChange} value={driver.dob}></input>
@@ -393,11 +390,10 @@ const Form = () => {
                         })
                     }
                 </select>
-                {errors.teams && <p className='error-txt'>{errors.teams}</p>}
                 {errors.general && <p className='error-txt'>{errors.general}</p>}
                 <div className='form-btn-container'>
-                    {success && <p className='success-txt'>¡Corredor creado con éxito!</p>}
-                    <button className='btn' id='crear-btn' type='submit'>CREAR DRIVER</button>
+                    {success && <p className='success-txt'>¡Corredor actualizado con éxito!</p>}
+                    <button className='btn' id='crear-btn' type='submit'>APLICAR CAMBIOS</button>
                     <button className='btn' id='cancelar-btn'>
                         <Link className='btn-txt' id='cancelar-txt' to='/home'>Cancelar</Link>
                     </button>
@@ -407,4 +403,4 @@ const Form = () => {
     )
 };
 
-export default Form;
+export default UpdateForm;

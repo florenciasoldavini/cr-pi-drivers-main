@@ -1,23 +1,25 @@
-const Pagination = ({driversPerPage, totalDrivers, paginate}) => {
-const pageNumbers = [];
+import ReactPaginate from 'react-paginate';
 
-for(let i = 1; i <= Math.ceil(totalDrivers / driversPerPage); i++) {
-    pageNumbers.push(i)
-}
+const Pagination = ({ handlePageClick, numberOfPages }) => {
 
     return (
-        <nav>
-            <ul>
-              {
-                pageNumbers.map(number =>(
-                    <li key={number}>
-                        <a onClick={() => paginate(number)}>{number}</a>
-                    </li>
-                ))
-              }  
-            </ul>
-        </nav>
-    )
+        <div className='pagination-container'>
+            <ReactPaginate
+                breakLabel="..."
+                nextLabel="next >"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={5}
+                pageCount={numberOfPages}
+                previousLabel="< prev"
+                renderOnZeroPageCount={null}
+                containerClassName='pagination'
+                pageLinkClassName='page-num'
+                previousLinkClassName='page-num'
+                nextLinkClassName='page-num'
+                activeClassName='active'
+            />
+        </div>
+    );
 };
 
 export default Pagination;

@@ -1,18 +1,18 @@
-const URL = "http://localhost:5000/drivers";
 const axios = require('axios');
 const { Team } = require('./../db');
 
-const getTeams = async (req, res) => {
+const URL = "http://localhost:5000/drivers";
+
+const getTeams = async (_, res) => {
     try {
-        const dbTeams = await Team.findAll()
+        const dbTeams = await Team.findAll();
 
         if (dbTeams.length > 0) {
-            res.json(dbTeams)
+            res.json(dbTeams);
         } else {
             const response = await axios.get(URL);
             const data = response.data;
-
-            const apiDrivers = data.filter(driver => driver.hasOwnProperty("teams"))
+            const apiDrivers = data.filter(driver => driver.hasOwnProperty("teams"));
 
             if (apiDrivers) {
                 let allTeams = [];
@@ -20,29 +20,28 @@ const getTeams = async (req, res) => {
                 apiDrivers.forEach(driver => {
                     let driverTeams = driver.teams.split(",");
 
-
                     driverTeams.forEach(team => {
                         team = team.trim()
 
                         if (!allTeams.includes(team)) {
                             allTeams.push(team)
                         }
-                    })
+                    });
                 });
 
                 allTeams.forEach(async team => {
                     await Team.create({
                         name: team,
                     })
-                })
+                });
                 
-                res.json(allTeams)
-            }
-        }
+                res.json(allTeams);
+            };
+        };
     } catch (error) {
-        res.status(400).send({ error: error.message })
-    }
-}
+        res.status(500).send({ error: error.message });
+    };
+};
 
-module.exports = getTeams
+module.exports = getTeams;
 

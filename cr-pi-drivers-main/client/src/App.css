@@ -422,3 +422,39 @@ input:-webkit-autofill {
   background-color: transparent;
   color: white;
 }
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  color: white;
+}
+
+.pagination-container {
+  height: 50px;
+}
+
+.pagination {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px;
+  font-family: Syne;
+  font-size: 1.5em;
+  color: white;
+  gap: 10px;
+}
+
+.pagination .page-num {
+  cursor: pointer;
+}
+
+.pagination .page-num:hover {
+  color: red;
+}
+
+.pagination .active {
+  color: #bc343e;
+}
+

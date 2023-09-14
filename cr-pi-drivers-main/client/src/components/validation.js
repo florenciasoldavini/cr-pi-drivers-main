@@ -3,22 +3,22 @@ export default function validation(driver) {
 
     const regexName = /^[a-zA-Z\p{L}' ]+$/u
 
-    if (driver.forename && driver.surname && driver.nationality && driver.image && driver.dob && driver.description && driver.teams) {
-        errors.general = ''
-    } else {
-        errors.general = 'Falta completar datos'
-    }
-
     if (regexName.test(driver.forename)) {
         errors.forename = '';
     } else {
-        errors.forename = 'El nombre contiene caracteres inválidos'
-    }
+        errors.forename = 'El nombre no puede contener números ni símbolos'
+    } 
+
+    if (driver.forename !== '') {
+        errors.forename = '';
+    } else {
+        errors.forename = 'Debe completar este campo'
+    } 
 
     if (regexName.test(driver.surname)) {
         errors.surname = '';
     } else {
-        errors.surname = 'El apellido contiene caracteres inválidos'
+        errors.surname = 'El apellido no puede contener números ni símbolos'
     }
 
     if (driver.nationality !== '') {
@@ -43,10 +43,22 @@ export default function validation(driver) {
         errors.dob = 'Debe tener formato AAAA-MM-DD';
     };
 
-    if (driver.description.length > 120) {
+    if (driver.description.length <= 120) {
         errors.description = '';
     } else {
         errors.description = 'La descripción debe tener máximo 120 caracteres'
+    }
+
+    if (driver.teams.length !== 0) {
+        errors.teams = '';
+    } else {
+        errors.teams = 'Debe seleccionar al menos un equipo'
+    }
+
+    if (driver.forename && driver.surname && driver.nationality && driver.image && driver.dob && driver.description && driver.teams) {
+        errors.general = ''
+    } else {
+        errors.general = 'Falta completar datos'
     }
 
     return errors;

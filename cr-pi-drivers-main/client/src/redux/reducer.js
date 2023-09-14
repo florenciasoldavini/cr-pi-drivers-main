@@ -35,6 +35,13 @@ const rootReducer = (state = initialState, action) => {
                 }
             };
 
+        case 'DELETE_DRIVER':
+                return {
+                    ...state,
+                    drivers: state.drivers.filter(driver => driver.id !== action.payload),
+                    filteredDrivers: state.filteredDrivers.length ? state.filteredDrivers.filter(driver => driver.id !== action.payload) : state.filteredDrivers,
+                };
+
         case 'DETAIL_VIEW':
             return {
                 ...state,
