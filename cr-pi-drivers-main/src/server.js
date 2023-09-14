@@ -2,6 +2,7 @@ const express = require("express");
 const router = require("./routes");
 const morgan = require("morgan");
 const cors = require("cors");
+const path = require("path");
 
 const server = express();
 
@@ -11,15 +12,14 @@ server.use(cors());
 
 server.use(router);
 
-const htmlPath = "../../client/dist/index.html"
-
 server.use(express.static(
-    path.join(__dirname, htmlPath)));
+    path.join(__dirname, "../client/dist"))
+);
 
-    server.get("*", (req, res) => {
-        res.sendFile(
-            path.join(__dirname, htmlPath)
-          );
-    })
+server.get("*", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "../client/dist/index.html")
+    );
+});
 
 module.exports = server;
