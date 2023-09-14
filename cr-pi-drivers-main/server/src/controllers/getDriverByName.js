@@ -6,8 +6,6 @@ const axios = require('axios');
 const getDriverByName = async (req, res) => {
     let { name } = req.query;
 
-    console.log("entro al back");
-
     if (name) {
         try {
             name = name.charAt(0).toUpperCase() + name.slice(1);

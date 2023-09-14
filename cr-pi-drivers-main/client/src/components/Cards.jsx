@@ -3,8 +3,7 @@ import Card from "./Card";
 const Cards = ({ drivers }) => {
 
     return (
-        <div>
-
+        <div className="cards">
            {
               drivers.map(({ id, forename, surname, image, teams }) => {
                  return <Card key={id}

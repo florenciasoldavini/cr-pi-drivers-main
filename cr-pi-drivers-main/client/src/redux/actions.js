@@ -21,11 +21,18 @@ export const createDriver = (driver) => {
         try {
             const response = await axios.post(endpoint, driver)
             let data = response.data
+
             return dispatch({
                 type: 'CREATE_DRIVER',
                 payload: data,
             });
         } catch (error) {
+            console.error("Error al momento de hacer Post del driver al backend: ", error)
+
+            return dispatch({
+                type: 'CREATE_DRIVER',
+                error: error
+            })
         }
     };
 };
@@ -75,20 +82,8 @@ export const searchDriver = (name) => {
     };
 };
 
-export const filterDriversByTeam = (team) => {
-    return { type: 'FILTER_BY_TEAM', payload: team }
-};
-
-export const filterDriversByOrigin = (origin) => {
-    return { type: 'FILTER_BY_ORIGIN', payload: origin }
-};
-
-export const sortDrivers = (order) => {
-    return { type: 'SORT_DRIVERS', payload: order }
-};
-
 export const deleteDriver = (id) => {
-    const endpoint = 'http://localhost:3001/drivers/' + id;
+    const endpoint = 'http://localhost:3001/drivers/' + id.id;
     return async (dispatch) => {
         try {
             const response = await axios.get(endpoint)
@@ -100,4 +95,8 @@ export const deleteDriver = (id) => {
         } catch (error) {
         }
     };
+};
+
+export const applyFilters = (filters) => {
+    return { type: 'APPLY_FILTERS', payload: filters }
 };

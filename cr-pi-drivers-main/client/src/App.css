@@ -1,42 +1,424 @@
+
 #root {
   max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 0px;
+  padding: 0%;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.card-img {
+  width: 300px;
+  height: 350px;
+  object-fit: cover;
 }
 
 .card {
-  padding: 2em;
+  padding: 15px;
+  width: 350px;
+  height: 500px;
+  border-radius: 30px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.5);
+  border-width: 1.5px;
+  background-color: #1e1d25e8;
+  background-image: url(./assets/F1_Cards.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-.read-the-docs {
-  color: #888;
+.detail {
+  margin: 0px;
+  padding: 0px;
+  width: 550px;
+  height: 800px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 30px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.2);
+  border-width: 1.5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-img {
+  width: 250px;
+  height: 300px;
+  object-fit: cover;
+  margin: 0px;
+  padding: 0px;
+}
+
+.description-container {
+  margin: 0px;
+  padding: 35px;
+  width: 480px;
+  height: 350px;
+  text-align: left;
+}
+
+#description {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+.img-container {
+  margin: 0px;
+  padding: 0px;
+  width: 250px;
+  height: 300px;
+  display: inline-block;
+  
+}
+
+.info-container {
+  margin: 0px;
+  padding-left: 20px;
+  width: 200px;
+  height: 300px;
+  text-align: left;
+  vertical-align: top;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.img-container:info-container {
+  margin: 0px;
+}
+
+.img-info-btn-container {
+  margin: 0px;
+  padding: 0px;
+  width: 700px;
+  height: 300px;
+  display: flex;
+}
+
+.title-container {
+  margin: 0px;
+  padding: 0px;
+  width: 550px;
+  height: 100px;
+}
+
+.cards {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-items: space-between;
+  row-gap: 40px;
+  column-gap: 30px;
+}
+
+.navbar {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  padding-top: 10px;
+}
+
+.searchbar {
+  display: flex;
+  flex-flow: nowrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  display: inline-block;
+}
+
+.search{
+  display: inline-block;
+}
+
+.sort{
+  display: flex;
+  flex-direction: row;
+  display: inline-flex;
+  margin-left: 30px;
+}
+
+.select {
+  height: 20px;
+  margin-left: 15px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: 1px;
+  border-bottom-color: #bc343e;
+  background: transparent;
+  color: white;
+}
+
+.filter {
+    display: inline-block;
+    padding-left: 30px;
+}
+
+
+#search-input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #bc343e;
+  color: white;
+}
+
+#search-input:focus {
+  border-bottom: 2px solid red;
+}
+
+.card-text {
+  font-family: Syne;
+  text-decoration: inherit;
+  color: white;
+  text-transform: uppercase;
+}
+
+.detail-txt {
+  color: white;
+  font-family: Syne;
+}
+
+body {
+  margin: 0px;
+  padding: 0%;
+}
+
+.page {
+  height: 100vw;
+  width: 100vw;
+  margin: 0px;
+  padding: 0%;
+  background-attachment: fixed;
+  background-color: black;
+  background-origin: border-box;
+  background-size: cover;
+}
+
+#landing-page {
+  background-image: url(./assets/Ferrari_Image.jpg);
+  background-repeat: no-repeat;
+}
+
+#home-page {
+  background-image: url(./assets/Lines_Background.jpg);
+  background-repeat: repeat-y;
+  height: 100%;
+}
+
+#detail-page {
+  background-image: url(./assets/F1_Neutral.png);
+  background-repeat: repeat-y;
+}
+
+#form-page {
+  background-image: url(./assets/F1_Neutral.png);
+  background-repeat: repeat-y;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding-top: 5%;
+  padding-left: 35%;
+  padding-right: 35%;
+  text-align: left;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.btn {
+  font-family: Syne;
+  font-size: 1.5em;
+  border-radius: 30px;
+  border-color: #bc343e;
+  border-width: 3px;
+  border-style: solid;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 0.6em 1.2em;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+#home-btn {
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+#buscar-btn {
+  font-size: 1em;
+  color: #bc343e;
+  border-width: 1px;
+}
+
+#aplicar-filtros-btn {
+  font-size: 1em;
+  color: #bc343e;
+  border-width: 1px;
+}
+
+#filtrar-btn {
+  font-size: 1em;
+  color: #bc343e;
+  border-width: 1px;
+}
+
+#back-btn {
+  font-size: 1em;
+  color: #bc343e;
+  border-width: 1px;
+  margin-top: 18px;
+  width: 10%;
+}
+
+#crear-btn {
+  font-size: 1em;
+  color: #bc343e;
+  border-width: 1px;
+  margin-top: 30px;
+  background-color: transparent;
+  width: 40%;
+}
+
+#cancelar-btn {
+  border: 0px;
+  font-size: 1em;
+  margin-top: 20px;
+  background-color: transparent;
+}
+
+#agregar-corredor-btn {
+  width: 250px;
+  align-self: center;
+  margin: 20px;
+  padding: 10px;
+}
+
+@font-face {
+  color: #bc343e;
+  font-family: Syne;
+  src: local('./assets/Syne-SemiBold.ttf');
+}
+
+@font-face {
+  color: white;
+  font-family: F1;
+  src: local('./assets/Formula1-Bold_web.ttf');
+}
+
+.btn-txt {
+  text-decoration: inherit;
+  color: #bc343e;
+}
+
+.form-txt {
+  color: rgba(255, 255, 255, 0.8);
+  font-family: Syne;
+  padding-top: 3%;
+  padding-bottom: 1%;
+}
+
+.error-txt {
+  color: #bc343e;
+  font-family: Syne;
+  margin: 0%;
+  padding: 0%;
+  font-size: .8em;
+}
+
+.success-txt {
+  color: white;
+  font-family: Syne;
+  margin: 0%;
+  padding: 0%;
+  font-size: 1em;
+}
+
+
+#agregar-corredor-txt {
+  font-size: 0.8em;
+}
+
+.form-input {
+  border: none;
+  border-bottom: 2px solid #bc343e;
+  background-color: transparent;
+  padding: 2%;
+  color: rgba(255, 255, 255, 0.8);;
+}
+
+.form-input:focus {
+  border: none;
+  border-bottom: 2px solid #bc343e;
+  background-color: transparent;
+  padding: 2%;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: rgb(255, 255, 255);
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.form-btn-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.txt {
+  font-family: Syne;
+  color: #bc343e;
+}
+
+#home-btn:hover #home-txt {
+  border-color: red;
+  color: red;
+}
+
+#agregar-corredor-btn:hover #agregar-corredor-txt {
+  border-color: red;
+  color: red;
+}
+
+#back-btn:hover #back-txt {
+  border-color: red;
+  color: red;
+}
+
+#crear-btn:hover {
+  border-color: red;
+  color: red;
+}
+
+#cancelar-txt:hover {
+  color: red;
+}
+
+.btn:hover {
+  border-color: red;
+}
+
+#buscar-btn:hover {
+  color: red;
+}
+
+#aplicar-filtros-btn:hover {
+  color: red;
+}
+
+
+/* MULTISELECT FORM */
+
+.multiselect {
+  border-color: #bc343e;
+  background-color: transparent;
+  color: white;
 }

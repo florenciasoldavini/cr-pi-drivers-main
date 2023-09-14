@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 
 const NavBar = () => {
     return (
-        <div>
+        <div className="navbar">
             <SearchBar />
-            <button>
-                <Link to='/form'>Agregar driver</Link>
+            <button className="btn" id='agregar-corredor-btn'>
+                <Link className='btn-txt' id='agregar-corredor-txt' to='/form'>AGREGAR DRIVER</Link>
             </button>
         </div>
     )

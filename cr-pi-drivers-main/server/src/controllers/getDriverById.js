@@ -1,6 +1,6 @@
 const URL = "http://localhost:5000/drivers";
 const axios = require('axios');
-const { Driver } = require('../db');
+const { Driver, Team } = require('../db');
 
 const getDriverById = async (req, res) => {
     const id = req.params.idDriver;
@@ -11,14 +11,28 @@ const getDriverById = async (req, res) => {
     if (id) {
         try {
             if (result === "UUID") {
-                const dbDriver = await Driver.findAll({
-                    where: { id: id }
+                const driver = await Driver.findByPk(id, {
+                    include: Team
                 });
 
+                const teams = [];
+                driver.teams.forEach(team => teams.push(team.name))
+                const joinedTeams = teams.join(", ");
+
+                const dbDriver = {
+                    id: driver.id,
+                    forename: driver.forename,
+                    surname: driver.surname,
+                    image: driver.image,
+                    dob: driver.dob,
+                    nationality: driver.nationality,
+                    teams: joinedTeams,
+                    description: driver.description
+                }
+
                 res.json(dbDriver);
-                
+
             } else if (result === "Not UUID") {
-                console.log(URL + `${id}`);
 
                 const response = await axios.get(URL + `/${id}`);
                 const driver = response.data;
@@ -32,7 +46,7 @@ const getDriverById = async (req, res) => {
                     nationality: driver.nationality,
                     teams: driver.teams,
                     description: driver.description,
-                  };
+                };
 
                 res.json(apiDriver);
             }

@@ -3,10 +3,12 @@ import { deleteDriver } from '../redux/actions';
 import { useDispatch } from 'react-redux';
 
 const Card = ({ id, forename, surname, image, teams }) => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(); 
 
-    const handleClick = (id) => {
-        dispatch(deleteDriver(id))
+    console.log(id.id);
+
+    const handleClick = () => {
+        dispatch(deleteDriver({id}))
     };
 
     const regexUUID = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
@@ -19,13 +21,15 @@ const Card = ({ id, forename, surname, image, teams }) => {
     };
 
     return (
-        <div>
+        <div className='card'>
             {renderButton()}
-            <Link to={`/detail/${id}`} >
-                <h2>{forename} {surname}</h2>
+            <Link className='card-text' to={`/detail/${id}`} >
+                <h2 >{forename} {surname}</h2>
             </Link>
-            <img src={image} alt='' />
-            <h2>Teams: {teams}</h2>
+            <div>
+                <img src={image} alt='' className='card-img'/>
+            </div>
+            <p className='card-text'>teams: {teams}</p>
         </div>
     )
 };

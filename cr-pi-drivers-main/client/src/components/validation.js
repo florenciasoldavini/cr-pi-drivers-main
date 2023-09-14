@@ -3,6 +3,12 @@ export default function validation(driver) {
 
     const regexName = /^[a-zA-Z\p{L}' ]+$/u
 
+    if (driver.forename && driver.surname && driver.nationality && driver.image && driver.dob && driver.description && driver.teams) {
+        errors.general = ''
+    } else {
+        errors.general = 'Falta completar datos'
+    }
+
     if (regexName.test(driver.forename)) {
         errors.forename = '';
     } else {
@@ -37,7 +43,7 @@ export default function validation(driver) {
         errors.dob = 'Debe tener formato AAAA-MM-DD';
     };
 
-    if (driver.description.length < 120) {
+    if (driver.description.length > 120) {
         errors.description = '';
     } else {
         errors.description = 'La descripción debe tener máximo 120 caracteres'

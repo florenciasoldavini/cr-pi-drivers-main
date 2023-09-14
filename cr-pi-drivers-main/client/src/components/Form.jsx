@@ -1,12 +1,18 @@
-import { useState } from "react";
-import { useDispatch } from 'react-redux';
-import { createDriver } from "../redux/actions";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { createDriver, getTeams } from "../redux/actions";
 import validation from "./validation";
 import { Link } from 'react-router-dom';
 
 const Form = () => {
 
     const dispatch = useDispatch();
+    const error = useSelector(state => state.error);
+    const teams = useSelector(state => state.teams);
+
+    useEffect(() => {
+        dispatch(getTeams())
+    }, []);
 
     const [driver, setDriver] = useState({
         forename: '',
@@ -26,12 +32,26 @@ const Form = () => {
         dob: '',
         description: '',
         teams: '',
+        general: '',
     });
+
+    const [success, setSuccess] = useState(false)
 
     const handleChange = (event) => {
         setDriver({
             ...driver,
             [event.target.name]: event.target.value
+        });
+
+        setSuccess(false);
+    };
+
+    const handleMultiSelect = (event) => {
+        const formTeams = Array.from(event.target.selectedOptions, option => option.value);
+
+        setDriver({
+            ...driver,
+            teams: formTeams
         });
     };
 
@@ -47,32 +67,56 @@ const Form = () => {
             validationErrors
         );
 
-        if (!errors.forename && !errors.surname && !errors.nationality && !errors.image && !errors.dob && !errors.description && !errors.teams) {
+        if (!errors.forename && !errors.surname && !errors.nationality && !errors.image && !errors.dob && !errors.description && !errors.teams && !errors.general) {
             dispatch(createDriver(driver));
 
-            setDriver({
-                forename: '',
-                surname: '',
-                nationality: '',
-                image: '',
-                dob: '',
-                description: '',
-                teams: '',
-            });
-        };
+            if (error !== '') {
+                setErrors({
+                    ...errors,
+                    general: "Ya existe un corredor con ese nombre"
+                });
+
+            } else {
+                setDriver({
+                    forename: '',
+                    surname: '',
+                    nationality: '',
+                    image: '',
+                    dob: '',
+                    description: '',
+                    teams: '',
+                });
+
+                setErrors({
+                    ...errors,
+                    forename: '',
+                    surname: '',
+                    nationality: '',
+                    image: '',
+                    dob: '',
+                    description: '',
+                    teams: '',
+                    general: '',
+                });
+
+                setSuccess(true)
+            }
+        }
     };
 
+
+
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label>Nombre:</label>
-                <input name='forename' type='text' placeholder='Nombre del corredor...' onChange={handleChange} value={driver.forename}></input>
-                {errors.forename && <p>{errors.forename}</p>}
-                <label>Apellido:</label>
-                <input name='surname' type='text' placeholder='Apellido del corredor...' onChange={handleChange} value={driver.surname}></input>
-                {errors.surname && <p>{errors.surname}</p>}
-                <label>Nacionalidad:</label>
-                <select name="nationality" onChange={handleChange} value={driver.nationality}>
+        <div className="page" id='form-page'>
+            <form className='form' onSubmit={handleSubmit}>
+                <label className='form-txt'>Nombre:</label>
+                <input className='form-input' name='forename' type='text' placeholder='Nombre del corredor...' onChange={handleChange} value={driver.forename}></input>
+                {errors.forename && <p className='error-txt'>{errors.forename}</p>}
+                <label className='form-txt'>Apellido:</label>
+                <input className='form-input' name='surname' type='text' placeholder='Apellido del corredor...' onChange={handleChange} value={driver.surname}></input>
+                {errors.surname && <p className='error-txt'>{errors.surname}</p>}
+                <label className='form-txt'>Nacionalidad:</label>
+                <select className='form-input' name="nationality" onChange={handleChange} value={driver.nationality}>
                     <option value="">Seleccione una nacionalidad</option>
                     <option value="Afghanistan">Afghanistan</option>
                     <option value="Albania">Albania</option>
@@ -319,22 +363,33 @@ const Form = () => {
                     <option value="Zambia">Zambia</option>
                     <option value="Zimbabwe">Zimbabwe</option>
                 </select>
-                {errors.nationality && <p>{errors.nationality}</p>}
-                <label>Imagen:</label>
-                <input name='image' type='text' placeholder='Inserte un link a una imagen...' onChange={handleChange} value={driver.image}></input>
-                {errors.image && <p>{errors.image}</p>}
-                <label>Fecha de nacimiento:</label>
-                <input name='dob' type='text' placeholder='AAAA-MM-DD' onChange={handleChange} value={driver.dob}></input>
-                {errors.dob && <p>{errors.dob}</p>}
-                <label>Descripción:</label>
-                <input name='description' type='text' placeholder='Descripción...' onChange={handleChange} value={driver.description}></input>
-                {errors.description && <p>{errors.description}</p>}
-                <label>Equipos:</label>
-                <input name='teams' type='text' placeholder='Escriba los equipos separados por una coma' onChange={handleChange} value={driver.teams}></input>
-                <button type='submit'>Crear driver</button>
-                <button>
-                    <Link to='/home'>Cancelar</Link>
-                </button>
+                {errors.nationality && <p className='error-txt'>{errors.nationality}</p>}
+                <label className='form-txt'>Imagen:</label>
+                <input className='form-input' name='image' type='text' placeholder='Inserte un link a una imagen...' onChange={handleChange} value={driver.image}></input>
+                {errors.image && <p className='error-txt'>{errors.image}</p>}
+                <label className='form-txt'>Fecha de nacimiento:</label>
+                <input className='form-input' name='dob' type='text' placeholder='AAAA-MM-DD' onChange={handleChange} value={driver.dob}></input>
+                {errors.dob && <p className='error-txt'>{errors.dob}</p>}
+                <label className='form-txt'>Descripción:</label>
+                <input className='form-input' name='description' type='text' placeholder='Descripción...' onChange={handleChange} value={driver.description}></input>
+                {errors.description && <p className='error-txt'>{errors.description}</p>}
+                <label className='form-txt'>Equipos:</label>
+                <select className='multiselect' multiple='multiple' onChange={handleMultiSelect} >
+                    <option>Seleccione uno o varios equipos</option>
+                    {
+                        teams.map(({ id, name }) => {
+                            return <option key={id}>{name}</option>
+                        })
+                    }
+                </select>
+                {errors.general && <p className='error-txt'>{errors.general}</p>}
+                <div className='form-btn-container'>
+                    {success && <p className='success-txt'>¡Corredor creado con éxito!</p>}
+                    <button className='btn' id='crear-btn' type='submit'>CREAR DRIVER</button>
+                    <button className='btn' id='cancelar-btn'>
+                        <Link className='btn-txt' id='cancelar-txt' to='/home'>Cancelar</Link>
+                    </button>
+                </div>
             </form>
         </div>
     )

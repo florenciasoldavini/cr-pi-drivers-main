@@ -1,61 +1,74 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { searchDriver, filterDriversByOrigin, filterDriversByTeam } from '../redux/actions';
+import { searchDriver } from '../redux/actions';
 import { useState } from "react";
-import { sortDrivers } from '../redux/actions';
+import { applyFilters } from '../redux/actions';
 
 const SearchBar = ({ setDisplayedDrivers }) => {
 
     const dispatch = useDispatch();
-    const drivers = useSelector(state => state.drivers);
     const teams = useSelector(state => state.teams);
 
     const [search, setSearch] = useState("");
-    const [filters, setFilters] = useState("");
+
+    const [filters, setFilters] = useState({
+        sortBy: '',
+        filterByTeam: '',
+        filterByOrigin: ''
+    });
 
     const handleChange = (event) => {
         setSearch(event.target.value);
     };
 
-    const handleClick = () => {
+    const handleSearch = () => {
         dispatch(searchDriver(search));
     };
 
-    const handleSort = (event) => {
-        dispatch(sortDrivers(event.target.value));
+    const handleFilters = (event) => {
+        setFilters({
+            ...filters,
+            [event.target.name]: event.target.value,
+        });
     };
 
-    const handleFilterByOrigin = (event) => {
-        dispatch(filterDriversByOrigin(event.target.value));
-    };
-
-    const handleFilterByTeam = (event) => {
-        dispatch(filterDriversByTeam(event.target.value));
+    const handleClick = () => {
+        dispatch(applyFilters(filters))
     };
 
     return (
-        <div>
-            <input type='search' onChange={handleChange} />
-            <button onClick={handleClick}>Buscar</button>
-            <p>Ordenar por:</p>
-            <select onChange={handleSort}>
-                <option>Nombre, A-Z</option>
-                <option>Nombre, Z-A</option>
-                <option>Edad, menor a mayor</option>
-                <option>Edad, mayor a menor</option>
-            </select>
-            <button>Filtrar</button>
-            <select onChange={handleFilterByTeam}>
-                {
-                    teams.map(({id, name}) => {
-                        return <option key={id}>{name}</option>
-                    })
-                }
-            </select>
-            <select onChange={handleFilterByOrigin}>
-                <option>Mis corredores</option>
-                <option>Corredores preexistentes</option>
-                <option>Todos</option>
-            </select>
+        <div className='search-bar'>
+            <div className='search'>
+                <input id='search-input' type='search' onChange={handleChange} />
+                <button className='btn' id='buscar-btn' onClick={handleSearch}>BUSCAR</button>
+            </div>
+            <div className='sort'>
+                <label className='txt'>Ordenar por:</label>
+                <select className='select' id='select-sort' name='sortBy' onChange={handleFilters}>
+                    <option>Criterio</option>
+                    <option>Nombre, A-Z</option>
+                    <option>Nombre, Z-A</option>
+                    <option>Edad, menor a mayor</option>
+                    <option>Edad, mayor a menor</option>
+                </select>
+            </div>
+            <div className='filter'>
+                <label className='txt'>Filtrar por:</label>
+                <select className='select' name='filterByTeam' onChange={handleFilters}>
+                    <option>Equipo</option>
+                    {
+                        teams.map(({ id, name }) => {
+                            return <option key={id}>{name}</option>
+                        })
+                    }
+                </select>
+                <select className='select' name='filterByOrigin' onChange={handleFilters}>
+                    <option >Origen</option>
+                    <option >Mis corredores</option>
+                    <option>Corredores preexistentes</option>
+                    <option>Todos</option>
+                </select>
+                <button className='btn' id='aplicar-filtros-btn' onClick={handleClick}>APLICAR FILTROS</button>
+            </div>
         </div>
     )
 };
